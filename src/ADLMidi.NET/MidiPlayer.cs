@@ -408,7 +408,7 @@ public sealed class MidiPlayer : IDisposable
     /// <param name="userData">The user data to pass to the callback.</param>
     public void SetNoteHook(NoteHook noteHook, IntPtr userData) => AdlMidiImports.adl_setNoteHook(_device, noteHook, userData);
 
-#if false
+    // Real-time API — send MIDI events directly to the synth for live playback.
     public void RealTimeResetState() => AdlMidiImports.adl_rt_resetState(_device);
     public int RealTimeNoteOn(byte channel, byte note, byte velocity) => AdlMidiImports.adl_rt_noteOn(_device, channel, note, velocity);
     public void RealTimeNoteOff(byte channel, byte note) => AdlMidiImports.adl_rt_noteOff(_device, channel, note);
@@ -421,8 +421,7 @@ public sealed class MidiPlayer : IDisposable
     public void RealTimeBankChangeLSB(byte channel, byte lsb) => AdlMidiImports.adl_rt_bankChangeLSB(_device, channel, lsb);
     public void RealTimeBankChangeMSB(byte channel, byte msb) => AdlMidiImports.adl_rt_bankChangeMSB(_device, channel, msb);
     public void RealTimeBankChange(byte channel, short bank) => AdlMidiImports.adl_rt_bankChange(_device, channel, bank);
-    public int RealTimeSystemExclusive(IntPtr message, UIntPtr size) => AdlMidiImports.adl_rt_systemExclusive(_device, message, size);
-#endif
+    public unsafe int RealTimeSystemExclusive(IntPtr message, UIntPtr size) => AdlMidiImports.adl_rt_systemExclusive(_device, (byte*)message, size);
 
 #if false
     public void SetRawEventHook(AdlMidiImports.RawEventHook rawEventHook, IntPtr userData) => AdlMidiImports.adl_setRawEventHook(_device, rawEventHook, userData);
